@@ -1,54 +1,37 @@
 # gRPC Echo Server
 
-Простой gRPC сервер с включенным reflection для работы с grpcurl без proto файлов.
+Simple gRPC server for grpcurl tool without proto files
 
-## Сборка Docker образа
+## Build Docker image
 
-Сборка для linux/amd64 с использованием buildx (рекомендуется на M4 MacBook):
+Build for linux/amd64
 ```bash
 docker buildx build --platform linux/amd64 -t grpc-echo-server .
 ```
 
-Или обычная сборка:
-```bash
-docker build --build-arg TARGETOS=linux --build-arg TARGETARCH=amd64 -t grpc-echo-server .
-```
-
-## Запуск контейнера
+## Run
 
 ```bash
-docker run -d -p 50051:50051 --name grpc-server grpc-echo-server
+docker run --rm -d -p 50051:50051 --name grpc-server grpc-echo-server
 ```
 
-## Проверка работы
-
-После запуска контейнера можно проверить доступность сервера:
+## Use
 
 ```bash
 ./grpcurl -plaintext localhost:50051 list
 ```
 
-Должен вывести список доступных сервисов, например:
+Response must contain all availible methods:
 ```
 echo.EchoService
 grpc.reflection.v1alpha.ServerReflection
 grpc.reflection.v1.ServerReflection
 ```
 
-Для вызова методов:
-
 ```bash
-# Echo метод
+# Echo method
 ./grpcurl -plaintext localhost:50051 echo.EchoService/Echo -d '{"message": "Hello World"}'
 
-# SayHello метод
+# SayHello method
 ./grpcurl -plaintext localhost:50051 echo.EchoService/SayHello -d '{"name": "World"}'
 ```
-
-## Остановка контейнера
-
-```bash
-docker stop grpc-server
-docker rm grpc-server
-```
-
