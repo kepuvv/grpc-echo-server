@@ -35,3 +35,5 @@ grpc.reflection.v1.ServerReflection
 # SayHello method
 ./grpcurl -plaintext localhost:50051 echo.EchoService/SayHello -d '{"name": "World"}'
 ```
+
+![Docker Pulls](https://img.shields.io/docker/pulls/kepuvv/grpc-echo-reflection)
